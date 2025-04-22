@@ -29,5 +29,5 @@ jobs:
           server: ${{ secrets.GODADDY_HOST }}
           username: ${{ secrets.GODADDY_USERNAME }}
           password: ${{ secrets.GODADDY_PASSWORD }}
-          local-dir: public
+          local-dir: public/
           server-dir: ${{ secrets.GODADDY_PATH }}
