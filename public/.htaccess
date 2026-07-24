@@ -1,0 +1,11 @@
+RewriteEngine On
+
+# Keep digitalkraft.co.uk as the single canonical website.
+RewriteCond %{HTTP_HOST} ^(www\.)?digitalkraft\.studio$ [NC]
+RewriteRule ^ https://digitalkraft.co.uk%{REQUEST_URI} [R=301,L,NE]
+
+RewriteCond %{HTTP_HOST} ^www\.digitalkraft\.co\.uk$ [NC]
+RewriteRule ^ https://digitalkraft.co.uk%{REQUEST_URI} [R=301,L,NE]
+
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://digitalkraft.co.uk%{REQUEST_URI} [R=301,L,NE]

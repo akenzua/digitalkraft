@@ -1,16 +1,16 @@
 import { Box, Grid, Heading, Text } from "@chakra-ui/react";
 
 const services = [
-  ["01", "Product strategy", "Research, positioning and a practical roadmap that aligns user value with commercial goals."],
-  ["02", "Brand systems", "Distinct identities, verbal direction and flexible systems built to stay coherent as you grow."],
-  ["03", "Experience design", "Accessible UX and expressive interfaces that make complex products feel clear and intuitive."],
-  ["04", "Digital engineering", "Fast, resilient websites and product platforms engineered for performance and longevity."],
+  ["01", "Validate the opportunity", "Research, rapid prototypes and technical feasibility that test the case before you commit serious time and capital."],
+  ["02", "Design the right product", "Positioning, brand, accessible UX and system architecture shaped around user value and measurable business goals."],
+  ["03", "Engineer for production", "Mobile apps, SaaS, web platforms, APIs and cloud systems built for security, reliability and real-world operation."],
+  ["04", "Operate & scale", "Monitoring, performance, cloud efficiency, modernization and ongoing product ownership as usage and complexity grow."],
 ];
 
 export default function Services() {
   return (
     <Box className="page-content">
-      <Heading as="h2" className="section-heading">From first thought<br />to daily habit.</Heading>
+      <Heading as="h2" className="section-heading">Reduce risk.<br />Increase momentum.</Heading>
       <Grid className="services-grid">
         {services.map(([number, title, copy]) => (
           <Box className="service-item" key={number}>
@@ -20,7 +20,7 @@ export default function Services() {
           </Box>
         ))}
       </Grid>
-      <Text className="section-note">Engage us end-to-end or at the exact point your team needs senior momentum.</Text>
+      <Text className="section-note">AI accelerates the work. Senior people remain responsible for every decision, release and outcome.</Text>
     </Box>
   );
 }

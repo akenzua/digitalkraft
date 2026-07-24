@@ -14,6 +14,21 @@ import { renderToPipeableStream } from "react-dom/server";
 
 const ABORT_DELAY = 5_000;
 
+function setSecurityHeaders(headers: Headers) {
+  headers.set("X-Content-Type-Options", "nosniff");
+  headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  headers.set("X-Frame-Options", "DENY");
+  headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=()");
+
+  if (process.env.NODE_ENV === "production") {
+    headers.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
+    headers.set(
+      "Content-Security-Policy",
+      "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline'; connect-src 'self'"
+    );
+  }
+}
+
 export default function handleRequest(
   request: Request,
   responseStatusCode: number,
@@ -24,6 +39,8 @@ export default function handleRequest(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   loadContext: AppLoadContext
 ) {
+  setSecurityHeaders(responseHeaders);
+
   return isbot(request.headers.get("user-agent") || "")
     ? handleBotRequest(
         request,

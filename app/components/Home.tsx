@@ -6,28 +6,29 @@ export default function Home() {
   return (
     <Flex className="page-content home-content" direction="column" justify="space-between">
       <Box>
-        <Text className="eyebrow">Independent digital product studio · Est. 2018</Text>
+        <Text className="eyebrow">Senior product partners · From strategy to scale</Text>
         <Heading as="h1" className="hero-heading">
-          We turn complex ideas into digital products people
-          <Box as="span" className="heading-accent"> choose to use.</Box>
+          We turn high-stakes ideas into dependable products—and
+          <Box as="span" className="heading-accent"> stay accountable as they scale.</Box>
         </Heading>
         <Text className="hero-copy">
-          Strategy, identity, UX and engineering in one senior team. We partner with
-          ambitious companies to launch, rethink and scale meaningful digital experiences.
+          We help ambitious teams validate the opportunity, make the critical product and
+          technical decisions, then design, engineer and operate what comes next. Mobile,
+          SaaS and complex platforms—delivered faster with AI, governed by senior judgment.
         </Text>
       </Box>
 
       <Flex className="home-bottom" align="end" justify="space-between" gap="8">
         <Box>
-          <Text className="micro-label">Currently crafting</Text>
+          <Text className="micro-label">What we move forward</Text>
           <Typewriter
-            words={["useful products", "clear brands", "faster platforms", "lasting momentum"]}
+            words={["validated opportunities", "production launches", "dependable systems", "confident scale"]}
             typingSpeed={72}
             deletingSpeed={38}
             delay={1500}
           />
         </Box>
-        <a href="mailto:hello@digitalkraft.studio" className="round-link" aria-label="Start a project">
+        <a href="mailto:hello@digitalkraft.co.uk" className="round-link" aria-label="Start a project">
           <ArrowUpRight size={30} />
         </a>
       </Flex>

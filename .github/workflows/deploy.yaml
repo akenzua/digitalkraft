@@ -1,33 +1,32 @@
-name: Deploy DigitaKraft
+name: Validate Digital Kraft
 
 on:
   push:
     branches: [master]
+  pull_request:
+    branches: [master]
+
+concurrency:
+  group: digital-kraft-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  deploy:
+  validate:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "22"
+          cache: npm
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Build Remix app
-        run: npm run build
+      - name: Validate application
+        run: npm run check
 
-      - name: Upload to GoDaddy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-        with:
-          server: ${{ secrets.GODADDY_HOST }}
-          username: ${{ secrets.GODADDY_USERNAME }}
-          password: ${{ secrets.GODADDY_PASSWORD }}
-          local-dir: public/
-          server-dir: ${{ secrets.GODADDY_PATH }}

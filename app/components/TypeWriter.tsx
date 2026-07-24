@@ -17,20 +17,32 @@ export default function Typewriter({
   const [subIndex, setSubIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
   const [blink, setBlink] = useState(true);
+  const [reduceMotion, setReduceMotion] = useState(false);
   const containerRef = useRef<HTMLSpanElement>(null);
 
   // Compute max length for fixed width
   const maxLength = Math.max(...words.map((w) => w.length));
 
   useEffect(() => {
-    const id = setInterval(() => setBlink((b) => !b), 500);
-    return () => clearInterval(id);
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const updatePreference = () => setReduceMotion(mediaQuery.matches);
+
+    updatePreference();
+    mediaQuery.addEventListener("change", updatePreference);
+    return () => mediaQuery.removeEventListener("change", updatePreference);
   }, []);
 
   useEffect(() => {
+    if (reduceMotion) return;
+    const id = setInterval(() => setBlink((b) => !b), 500);
+    return () => clearInterval(id);
+  }, [reduceMotion]);
+
+  useEffect(() => {
+    if (reduceMotion) return;
     if (subIndex === words[wordIndex].length + 1 && !isDeleting) {
-      setTimeout(() => setIsDeleting(true), delay);
-      return;
+      const timeout = setTimeout(() => setIsDeleting(true), delay);
+      return () => clearTimeout(timeout);
     }
     if (subIndex === 0 && isDeleting) {
       setIsDeleting(false);
@@ -50,22 +62,26 @@ export default function Typewriter({
     typingSpeed,
     deletingSpeed,
     delay,
+    reduceMotion,
   ]);
 
   return (
-    <span
-      ref={containerRef}
-      className="typewriter"
-      style={{ width: `${maxLength}ch` }}
-      aria-live="polite"
-    >
+    <>
+      <span className="sr-only">{words.join(", ")}</span>
       <span
-        className="inline-block overflow-hidden"
-        style={{ width: `${subIndex}ch` }}
+        ref={containerRef}
+        className="typewriter"
+        style={{ width: `${maxLength}ch` }}
+        aria-hidden="true"
       >
-        {words[wordIndex].slice(0, subIndex)}
+        <span
+          className="inline-block overflow-hidden"
+          style={{ width: reduceMotion ? `${words[0].length}ch` : `${subIndex}ch` }}
+        >
+          {reduceMotion ? words[0] : words[wordIndex].slice(0, subIndex)}
+        </span>
+        {!reduceMotion && <span className="inline-block w-1">{blink ? "|" : " "}</span>}
       </span>
-      <span className="inline-block w-1">{blink ? "|" : " "}</span>
-    </span>
+    </>
   );
 }

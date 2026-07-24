@@ -2,9 +2,9 @@ import { ArrowUpRight } from "lucide-react";
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 
 const work = [
-  { type: "Fintech · Product", name: "The finance workspace", result: "One calm view for high-stakes decisions", tone: "violet" },
-  { type: "Climate · Platform", name: "Carbon made actionable", result: "From dense data to a clear next move", tone: "lime" },
-  { type: "Commerce · Brand", name: "A category of one", result: "Identity and storefront built to convert", tone: "orange" },
+  { type: "Fintech · Product modernization", name: "From friction to confidence", result: "A secure mobile experience ready for growth", tone: "violet" },
+  { type: "Climate · Platform scale", name: "Carbon made actionable", result: "Dependable data systems behind clearer decisions", tone: "lime" },
+  { type: "Commerce · Launch partnership", name: "A category of one", result: "One coherent brand, product and operating platform", tone: "orange" },
 ];
 
 export default function Portfolio() {
@@ -12,7 +12,7 @@ export default function Portfolio() {
     <Box className="page-content">
       <Flex className="section-intro" align="end" justify="space-between" gap="6">
         <Heading as="h2" className="section-heading">Selected<br />engagements.</Heading>
-        <Text className="intro-copy">A snapshot of the kind of challenges we help ambitious teams solve.</Text>
+        <Text className="intro-copy">The work is not finished when software ships. It is finished when the product performs.</Text>
       </Flex>
       <Box className="work-list">
         {work.map((project, index) => (

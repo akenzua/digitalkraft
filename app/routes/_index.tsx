@@ -10,12 +10,35 @@ import About from "~/components/About";
 import Contact from "~/components/Contact";
 
 export const meta: MetaFunction = () => [
-  { title: "Digital Kraft — Strategy, Design & Technology" },
+  { title: "Digital Kraft — Senior Product Partners, Strategy to Scale" },
   {
     name: "description",
     content:
-      "Digital Kraft is an independent product studio creating distinctive brands, digital experiences and technology for ambitious teams.",
+      "Digital Kraft helps ambitious teams validate, design, engineer and scale dependable mobile applications, SaaS products and complex digital platforms.",
   },
+  { name: "application-name", content: "Digital Kraft" },
+  { name: "author", content: "Digital Kraft" },
+  { name: "robots", content: "index, follow" },
+  { property: "og:type", content: "website" },
+  { property: "og:site_name", content: "Digital Kraft" },
+  { property: "og:title", content: "Digital Kraft — Senior Product Partners, Strategy to Scale" },
+  {
+    property: "og:description",
+    content:
+      "We help ambitious teams validate, design, engineer and scale dependable mobile applications, SaaS products and complex digital platforms.",
+  },
+  { property: "og:url", content: "https://digitalkraft.co.uk/" },
+  { name: "twitter:card", content: "summary" },
+  { name: "twitter:title", content: "Digital Kraft — Senior Product Partners, Strategy to Scale" },
+  {
+    name: "twitter:description",
+    content:
+      "Senior product partners for dependable mobile applications, SaaS products and complex digital platforms.",
+  },
+];
+
+export const links = () => [
+  { rel: "canonical", href: "https://digitalkraft.co.uk/" },
 ];
 
 export default function CardStack() {
@@ -78,7 +101,7 @@ export default function CardStack() {
           <Flex className="brand-mark" align="center" justify="center">DK</Flex>
           <Box>
             <Text className="brand-name">DIGITAL KRAFT</Text>
-            <Text className="brand-detail">Strategy · Design · Technology</Text>
+            <Text className="brand-detail">Validate · Build · Scale</Text>
           </Box>
         </Flex>
         <Flex align="center" gap="2" className="availability">
@@ -93,6 +116,8 @@ export default function CardStack() {
             <Card
               key={card.id}
               index={i}
+              activeIndex={active}
+              cardCount={cards.length}
               title={card.title}
               kicker={card.kicker}
               isActive={i === active}
@@ -108,7 +133,7 @@ export default function CardStack() {
       </Box>
 
       <Flex as="footer" className="site-footer" align="center" justify="space-between">
-        <Text>Independent digital product studio</Text>
+        <Text>Senior product partners from strategy to scale</Text>
         <Flex align="center" gap="2">
           <Text>Hover or tap a card</Text>
           <ArrowDownRight size={14} />
