@@ -24,12 +24,22 @@ export default function Card({
   surface,
   ink,
 }: CardProps) {
+  const stackTilts = ["-0.45deg", "0.35deg", "-0.25deg", "0.45deg", "-0.2deg"];
+
   return (
     <Box
       as="section"
       className="deck-card"
       data-active={isActive ? "true" : "false"}
-      style={{ "--card-surface": surface, "--card-ink": ink } as React.CSSProperties}
+      style={
+        {
+          "--card-surface": surface,
+          "--card-ink": ink,
+          "--card-index": index,
+          "--card-tilt": stackTilts[index] ?? "0deg",
+          zIndex: isActive ? 50 : index + 1,
+        } as React.CSSProperties
+      }
       onMouseEnter={onActivate}
       onFocusCapture={onActivate}
     >
