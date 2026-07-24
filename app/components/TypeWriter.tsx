@@ -55,8 +55,9 @@ export default function Typewriter({
   return (
     <span
       ref={containerRef}
-      className="font-mono text-xl inline-block"
+      className="typewriter"
       style={{ width: `${maxLength}ch` }}
+      aria-live="polite"
     >
       <span
         className="inline-block overflow-hidden"
