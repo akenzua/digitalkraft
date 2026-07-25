@@ -30,4 +30,16 @@ Serve only one canonical copy of the site. Configure `digitalkraft.studio` at th
 
 This is a server-rendered Remix application. Production hosting must support a persistent Node.js 22 process and serve `build/client` as static assets while running `build/server/index.js` through `npm start`.
 
-An FTP-only shared hosting plan is not compatible: uploading `public` does not deploy the application. The GitHub workflow validates pull requests and `master`, but intentionally does not deploy until a Node-capable host is configured.
+An FTP-only shared hosting plan is not compatible: uploading `public` does not deploy the application.
+
+## Production deployment
+
+Pushes to `main` are validated and automatically deployed to the production VPS by GitHub Actions. The deployment checks out the exact pushed commit, installs locked dependencies, rebuilds the Remix application, restarts `digitalkraft.service`, and verifies both the local service and public HTTPS endpoint. A failed deployment restores the previous commit.
+
+The workflow requires one repository Actions secret:
+
+- `VPS_SSH_KEY`: the private key authorized for the `irumole` production user.
+
+Configure it in **GitHub → Settings → Secrets and variables → Actions → New repository secret**. Never commit the private key to the repository.
+
+The production user must retain passwordless `sudo` access for restarting `digitalkraft.service`. Deployments are serialized, so a newer push waits for an in-progress production deployment rather than interrupting it.

@@ -1,17 +1,18 @@
-name: Validate Digital Kraft
+name: Validate and deploy
 
 on:
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
-    branches: [master]
+    branches: [main]
+  workflow_dispatch:
 
-concurrency:
-  group: digital-kraft-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+permissions:
+  contents: read
 
 jobs:
   validate:
+    name: Validate
     runs-on: ubuntu-latest
 
     steps:
@@ -29,4 +30,54 @@ jobs:
 
       - name: Validate application
         run: npm run check
+
+  deploy:
+    name: Deploy production
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    needs: validate
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://digitalkraft.co.uk
+    concurrency:
+      group: digitalkraft-production
+      cancel-in-progress: false
+
+    steps:
+      - name: Checkout deployment script
+        uses: actions/checkout@v4
+
+      - name: Configure SSH
+        env:
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/digitalkraft_vps
+          chmod 600 ~/.ssh/digitalkraft_vps
+          cat >> ~/.ssh/known_hosts <<'EOF'
+          92.205.183.117 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIa0B1/2PnjiVQqSE//H22gtOsM2DZvYRgc26jD/j0UH
+          EOF
+
+      - name: Deploy exact commit
+        env:
+          DEPLOY_SHA: ${{ github.sha }}
+        run: |
+          ssh \
+            -i ~/.ssh/digitalkraft_vps \
+            -o BatchMode=yes \
+            -o IdentitiesOnly=yes \
+            irumole@92.205.183.117 \
+            "bash -s -- '$DEPLOY_SHA'" < scripts/deploy-production.sh
+
+      - name: Verify public website
+        run: |
+          curl \
+            --fail \
+            --silent \
+            --show-error \
+            --retry 5 \
+            --retry-all-errors \
+            --retry-delay 2 \
+            --max-time 15 \
+            https://digitalkraft.co.uk/ > /dev/null
 
